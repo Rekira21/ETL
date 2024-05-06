@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html><head><style></style><script src="v1-1000x300_data/jquery.min.js"></script><script src="v1-1000x300_data/edge.4.0.0.min.js"></script><script src="v1-1000x300_data/v1-1000x300_edge.js"></script><script src="v1-1000x300_data/v1-1000x300_edgeActions.js"></script><script type="text/javascript">
+    
+  (function() {
+    var MAX_URL_PARAM_LENGTH = 34;
+    var CLICK_X_URL_KEY = 'nx';
+    var CLICK_Y_URL_KEY = 'ny';
+    var CREATIVE_DIMENSIONS_KEY = 'dim';
+    var AD_URL_PARAM = '&adurl=';
+
+    var relegateNavigation = '';
+    var urlParamMap = {};
+
+    urlParamMap[CLICK_X_URL_KEY] = null;
+    urlParamMap[CLICK_Y_URL_KEY] = null;
+    urlParamMap[CREATIVE_DIMENSIONS_KEY] = null;
+
+    var handleClickTagMessage = function(e) {
+      try {
+        var eventData = JSON.parse(e.data);
+      } catch (err) {
+        return;
+      }
+      if (eventData.isInitClickTag) {
+        if (eventData.clickTags) {
+          for (var i = 0; i < eventData.clickTags.length; i++) {
+            var clkTag = eventData.clickTags[i];
+            window[clkTag.name] = clkTag.url;
+          }
+        } else if (eventData.clickTag) {
+          window.clickTag = eventData.clickTag;
+        }
+        relegateNavigation = eventData.relegateNavigation;
+      }
+    };
+
+    var storeClickCoordinates = function(e) {
+      urlParamMap[CLICK_X_URL_KEY] = Math.round(e.clientX);
+      urlParamMap[CLICK_Y_URL_KEY] = Math.round(e.clientY);
+    };
+
+    var getCreativeDimensions = function() {
+      return window.innerWidth + 'x' + window.innerHeight;
+    }
+
+    var getExitClickParams = function(e) {
+      urlParamMap[CREATIVE_DIMENSIONS_KEY] = getCreativeDimensions();
+
+      var exitParams = '';
+      for (var key in urlParamMap) {
+        exitParams += '&' + key + '=';
+        if (urlParamMap[key] !== null) {
+          exitParams += urlParamMap[key];
+        }
+      }
+      return exitParams;
+    }
+
+    var appendExitClickParams = function(url) {
+      var adUrlIndex = url.toLowerCase().indexOf(AD_URL_PARAM);
+      var paramsToBeAdded = getExitClickParams();
+      if (adUrlIndex > -1 && paramsToBeAdded.length <= MAX_URL_PARAM_LENGTH) {
+        url = url.substr(0, adUrlIndex) + paramsToBeAdded +
+          url.substr(adUrlIndex);
+      };
+      return url;
+    };
+
+    if (open.call) {
+      window.open = function(open) {
+        return function(url, name, features) {
+          url = appendExitClickParams(url);
+          if (relegateNavigation === 'parent') {
+            var message = {'clickTag': url, 'isPostClickTag': true};
+            parent.postMessage(JSON.stringify(message), '*');
+          } else {
+            var args = [url, name];
+            if (features) {
+              args.push(features);
+            }
+            open.apply(window, args);
+          }
+        };
+      }(window.open);
+    }
+
+    if (window.addEventListener) {
+      window.addEventListener(
+          'message', handleClickTagMessage, false);
+      window.addEventListener('mousedown', storeClickCoordinates, true);
+    } else {
+      window.attachEvent('onmessage', handleClickTagMessage);
+    }
+  })();
+    
+  </script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<title>Untitled</title>
+<!--Adobe Edge Runtime-->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <script type="text/javascript" charset="utf-8" src="v1-1000x300_data/v1-1000x300_edgePreload.js"></script>
+    <style>
+        .edgeLoad-x300-v1 { visibility:hidden; }
+    </style>
+<!--Adobe Edge Runtime End-->
+<script type="text/javascript">
+var clickTag = "https://www.orange.tn/entreprises/securite-managee";
+</script>
+</head>
+<body style="margin:0;padding:0;">
+	<a href="javascript:window.open(window.clickTag)">
+	<div id="Stage" class="x300-v1" style="position: relative; background-color: rgb(255, 255, 255); overflow: hidden; height: 300px; width: 1000px;">
+	<div id="Stage_fond" style="position: absolute; margin: 0px; inset: 0px auto auto 0px; width: 1000px; height: 300px; background-size: 100% 100%; background-image: url(&quot;images/fond.png&quot;); background-position: 0px 0px; background-repeat: no-repeat;" class="Stage_fond_id"></div><div id="Stage_texte" style="position: absolute; margin: 0px; inset: 0px auto auto 0px; width: 1000px; height: 300px; transform-origin: 50% 50% 0px; transform: translate(0px) rotate(0deg) scale(1); background-size: 100% 100%; background-image: url(&quot;images/texte.png&quot;); background-position: 0px 0px; background-repeat: no-repeat; opacity: 1; transform-style: preserve-3d;" class="Stage_texte_id"></div><div id="Stage_texte2" style="position: absolute; margin: 0px; inset: 0px auto auto 0px; width: 1000px; height: 300px; transform-origin: 50% 50% 0px; transform: translate(0px, 40.8789px) rotate(0deg) scale(1); background-size: 100% 100%; background-image: url(&quot;images/texte2.png&quot;); background-position: 0px 0px; background-repeat: no-repeat; opacity: 0.61435; transform-style: preserve-3d;" class="Stage_texte2_id"></div><div id="Stage_pastille" style="position: absolute; margin: 0px; inset: 0px auto auto 0px; width: 1000px; height: 300px; background-size: 100% 100%; background-image: url(&quot;images/pastille.png&quot;); background-position: 0px 0px; background-repeat: no-repeat; opacity: 0; transform-style: preserve-3d; transform: translate(0px) rotate(0deg) scale(0.39);" class="Stage_pastille_id"></div><div id="Stage_logo-business" style="position: absolute; margin: 0px; inset: 0px auto auto 0px; width: 1000px; height: 300px; background-size: 100% 100%; background-image: url(&quot;images/logo-business.png&quot;); background-position: 0px 0px; background-repeat: no-repeat; opacity: 0;" class="Stage_logo-business_id"></div></div>
+		</a>
+
+</body></html>
